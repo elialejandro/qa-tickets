@@ -2,7 +2,9 @@
 
 namespace App\Filament\Resources\TestCases\Schemas;
 
+use App\Filament\Resources\TestCases\Pages\CreateTestCase;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -11,6 +13,7 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Auth;
 
 class TestCaseForm
@@ -22,11 +25,10 @@ class TestCaseForm
                 Wizard::make([
                     Step::make('Step 1')
                         ->schema([
-                            TextInput::make('owner_id')
-                                ->hidden()
-                                ->default(fn () => Auth::id())
-                                ->numeric(),
+                            Hidden::make('owner_id')
+                                ->default(fn () => Auth::id()),
                             TextInput::make('code')
+                                ->default(fn () => self::generateCode())
                                 ->required(),
                             TextInput::make('module')
                                 ->required(),
@@ -47,7 +49,7 @@ class TestCaseForm
                                 ->default('open')
                                 ->required(),
                             DateTimePicker::make('execution_at')
-                                ->required(),
+                                ->hidden(fn ($livewire) => $livewire instanceof CreateTestCase),
                             TextInput::make('version'),
 
                         ])
@@ -74,5 +76,16 @@ class TestCaseForm
                 ])
                 ->columnSpanFull(),
             ]);
+    }
+
+    private static function generateCode(): string
+    {
+        return IdGenerator::generate([
+            'table' => 'test_cases',
+            'field' => 'code',
+            'length' => 10,
+            'prefix' => 'TC-',
+            'reset_on_prefix_change' => true,
+        ]);
     }
 }
