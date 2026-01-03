@@ -9,12 +9,4 @@ use Illuminate\Support\Facades\Auth;
 class CreateTestCase extends CreateRecord
 {
     protected static string $resource = TestCaseResource::class;
-
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['owner_id'] = Auth::id();
-        $data['result'] = '';
-
-        return $data;
-    }
 }

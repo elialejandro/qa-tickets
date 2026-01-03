@@ -5,7 +5,9 @@ namespace App\Filament\Resources\TestCases;
 use App\Filament\Resources\TestCases\Pages\CreateTestCase;
 use App\Filament\Resources\TestCases\Pages\EditTestCase;
 use App\Filament\Resources\TestCases\Pages\ListTestCases;
+use App\Filament\Resources\TestCases\Pages\ViewTestCase;
 use App\Filament\Resources\TestCases\Schemas\TestCaseForm;
+use App\Filament\Resources\TestCases\Schemas\TestCaseInfolist;
 use App\Filament\Resources\TestCases\Tables\TestCasesTable;
 use App\Models\TestCase;
 use BackedEnum;
@@ -27,6 +29,11 @@ class TestCaseResource extends Resource
         return TestCaseForm::configure($schema);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return TestCaseInfolist::configure($schema);
+    }
+
     public static function table(Table $table): Table
     {
         return TestCasesTable::configure($table);
@@ -44,6 +51,7 @@ class TestCaseResource extends Resource
         return [
             'index' => ListTestCases::route('/'),
             'create' => CreateTestCase::route('/create'),
+            'view' => ViewTestCase::route('/{record}'),
             'edit' => EditTestCase::route('/{record}/edit'),
         ];
     }

@@ -60,9 +60,6 @@ class TestCaseForm
                                             ->storeFileNamesIn('filename')
                                             ->required()
                                             ->columnSpanFull(),
-                                        // TextInput::make('filename')
-                                        //     ->required()
-                                        //     ->columnSpanFull(),
                                         Textarea::make('description')
                                             ->columnSpanFull(),
                                     ])
