@@ -2,11 +2,17 @@
 
 namespace App\Filament\Resources\TestCases\Schemas;
 
+use Filament\Forms\Components\Repeater\TableColumn;
 use Filament\Forms\Components\RichEditor\RichContentRenderer;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 
 class TestCaseInfolist
 {
@@ -26,7 +32,8 @@ class TestCaseInfolist
                                 TextEntry::make('code'),
                                 TextEntry::make('module'),
                                 TextEntry::make('priority')
-                                    ->badge(),
+                                    ->badge()
+                                    ,
                                 TextEntry::make('status')
                                     ->badge(),
                                 TextEntry::make('execution_at')
@@ -60,8 +67,19 @@ class TestCaseInfolist
                                 TextEntry::make('result')   
                                     ->html()
                                     ->columnSpanFull(),
-                                // TextEntry::make('attachments')
-                                //     ->columnSpanFull(),
+                                RepeatableEntry::make('attachments')
+                                    ->table([
+                                        TableColumn::make('Attachment'),
+                                        TableColumn::make('description'),
+                                    ])
+                                    ->schema([
+                                        ImageEntry::make('path')
+                                            ->label('Attachment'),
+                                        TextEntry::make('description')
+                                            ->label('Description'),
+                                    ])
+                                    ->columns()
+                                    ->contained(false),
                             ]),
                         Tabs\Tab::make('Metadata')
                             ->schema([
