@@ -3,8 +3,9 @@
 namespace App\Enums\TestCase;
 
 use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
 
-enum Priority: string implements HasColor
+enum Priority: string implements HasColor, HasLabel
 {
     case LOW = 'normal';
     case MEDIUM = 'medium';
@@ -16,6 +17,15 @@ enum Priority: string implements HasColor
             self::LOW => 'success',
             self::MEDIUM => 'warning',
             self::HIGH => 'danger',
+        };
+    }
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::LOW => 'Normal',
+            self::MEDIUM => 'Medium',
+            self::HIGH => 'High',
         };
     }
 }

@@ -14,11 +14,12 @@ class TestCasesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn ($query) => $query->orderBy('created_at', 'DESC'))
             ->columns([
-                TextColumn::make('owner_id')
+                TextColumn::make('owner.name')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('reviewed_by')
+                TextColumn::make('reviewedBy.name')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('code')

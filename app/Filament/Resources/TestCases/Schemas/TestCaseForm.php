@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\TestCases\Schemas;
 
+use App\Enums\TestCase\Priority;
+use App\Enums\TestCase\Status;
 use App\Filament\Resources\TestCases\Pages\CreateTestCase;
 use App\Filament\Resources\TestCases\Pages\EditTestCase;
 use Filament\Forms\Components\DateTimePicker;
@@ -85,18 +87,20 @@ class TestCaseForm
                 ->required(),
             ToggleButtons::make('priority')
                 ->inline()
-                ->options(['normal' => 'Normal', 'medium' => 'Medium', 'high' => 'High'])
+                ->options(Priority::class)
+                // ->options(['normal' => 'Normal', 'medium' => 'Medium', 'high' => 'High'])
                 ->default('normal')
                 ->required(),
             ToggleButtons::make('status')
                 ->inline()
-                ->options([
-                    'open' => 'Open',
-                    'in_course' => 'In course',
-                    'closed' => 'Closed',
-                    'review' => 'Review',
-                    'completed' => 'Completed',
-                ])
+                ->options(Status::class)
+                // ->options([
+                //     'open' => 'Open',
+                //     'in_course' => 'In course',
+                //     'closed' => 'Closed',
+                //     'review' => 'Review',
+                //     'completed' => 'Completed',
+                // ])
                 ->default('open')
                 ->required(),
             DateTimePicker::make('execution_at')
