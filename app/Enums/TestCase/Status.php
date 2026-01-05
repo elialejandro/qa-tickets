@@ -1,8 +1,6 @@
-<?php 
+<?php
 
 namespace App\Enums\TestCase;
-
-use Illuminate\Support\Traits\EnumeratesValues;
 
 enum Status: string
 {

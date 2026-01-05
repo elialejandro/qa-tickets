@@ -3,16 +3,12 @@
 namespace App\Filament\Resources\TestCases\Schemas;
 
 use Filament\Forms\Components\Repeater\TableColumn;
-use Filament\Forms\Components\RichEditor\RichContentRenderer;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Tabs;
-use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class TestCaseInfolist
 {
@@ -32,8 +28,7 @@ class TestCaseInfolist
                                 TextEntry::make('code'),
                                 TextEntry::make('module'),
                                 TextEntry::make('priority')
-                                    ->badge()
-                                    ,
+                                    ->badge(),
                                 TextEntry::make('status')
                                     ->badge(),
                                 TextEntry::make('execution_at')
@@ -64,7 +59,7 @@ class TestCaseInfolist
                             ]),
                         Tabs\Tab::make('Results')
                             ->schema([
-                                TextEntry::make('result')   
+                                TextEntry::make('result')
                                     ->html()
                                     ->columnSpanFull(),
                                 RepeatableEntry::make('attachments')
@@ -74,6 +69,8 @@ class TestCaseInfolist
                                     ])
                                     ->schema([
                                         ImageEntry::make('path')
+                                            ->url(fn (string $state): ?string => Storage::url($state), true)
+                                            ->disk('public')
                                             ->label('Attachment'),
                                         TextEntry::make('description')
                                             ->label('Description'),

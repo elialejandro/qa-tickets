@@ -9,7 +9,6 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
@@ -37,7 +36,7 @@ class TestCaseForm
                         ->schema(static::getStep3()),
                 ])
                     ->columnSpanFull()
-                    ->hidden(fn($livewire) => $livewire instanceof EditTestCase),
+                    ->hidden(fn ($livewire) => $livewire instanceof EditTestCase),
                 Tabs::make('Tabs')
                     ->tabs([
                         Tab::make('General')
@@ -58,6 +57,8 @@ class TestCaseForm
                                         FileUpload::make('path')
                                             ->directory('attachments')
                                             ->storeFileNamesIn('filename')
+                                            ->disk('public')
+                                            ->visibility('public')
                                             ->required()
                                             ->columnSpanFull(),
                                         Textarea::make('description')
@@ -68,7 +69,7 @@ class TestCaseForm
                             ->columnSpanFull(),
                     ])
                     ->columnSpanFull()
-                    ->hidden(fn($livewire) => $livewire instanceof CreateTestCase),
+                    ->hidden(fn ($livewire) => $livewire instanceof CreateTestCase),
             ]);
     }
 
@@ -76,9 +77,9 @@ class TestCaseForm
     {
         return [
             Hidden::make('owner_id')
-                ->default(fn() => Auth::id()),
+                ->default(fn () => Auth::id()),
             TextInput::make('code')
-                ->default(fn() => self::generateCode())
+                ->default(fn () => self::generateCode())
                 ->required(),
             TextInput::make('module')
                 ->required(),
@@ -99,7 +100,7 @@ class TestCaseForm
                 ->default('open')
                 ->required(),
             DateTimePicker::make('execution_at')
-                ->hidden(fn($livewire) => $livewire instanceof CreateTestCase),
+                ->hidden(fn ($livewire) => $livewire instanceof CreateTestCase),
             TextInput::make('version'),
 
         ];
