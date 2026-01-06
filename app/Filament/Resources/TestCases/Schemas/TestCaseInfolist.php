@@ -20,10 +20,13 @@ class TestCaseInfolist
                     ->tabs([
                         Tabs\Tab::make('General')
                             ->schema([
-                                TextEntry::make('owner_id')
+                                TextEntry::make('title')
+                                    ->columnSpanFull(),
+                                TextEntry::make('owner.name')
+                                    ->label('Owner')
                                     ->numeric(),
-                                TextEntry::make('reviewed_by')
-                                    ->numeric()
+                                TextEntry::make('reviewedBy.name')
+                                    ->label('Reviewed By')
                                     ->placeholder('-'),
                                 TextEntry::make('code'),
                                 TextEntry::make('module'),
@@ -31,12 +34,11 @@ class TestCaseInfolist
                                     ->badge(),
                                 TextEntry::make('status')
                                     ->badge(),
+                                TextEntry::make('version')
+                                    ->placeholder('-'),
                                 TextEntry::make('execution_at')
                                     ->dateTime()
                                     ->placeholder('-'),
-                                TextEntry::make('version')
-                                    ->placeholder('-'),
-                                TextEntry::make('title'),
                             ])
                             ->columns(),
                         Tabs\Tab::make('Details')

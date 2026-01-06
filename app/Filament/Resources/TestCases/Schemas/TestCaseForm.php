@@ -11,9 +11,11 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Schemas\Components\Wizard;
@@ -80,6 +82,12 @@ class TestCaseForm
         return [
             Hidden::make('owner_id')
                 ->default(fn () => Auth::id()),
+            Select::make('reviewed_by')
+                ->relationship('reviewedBy', 'name')
+                ->searchable()
+                ->hidden(fn ($livewire) => $livewire instanceof CreateTestCase)
+                ->preload()
+                ->columnSpanFull(),
             TextInput::make('code')
                 ->default(fn () => self::generateCode())
                 ->required(),
@@ -88,19 +96,11 @@ class TestCaseForm
             ToggleButtons::make('priority')
                 ->inline()
                 ->options(Priority::class)
-                // ->options(['normal' => 'Normal', 'medium' => 'Medium', 'high' => 'High'])
                 ->default('normal')
                 ->required(),
             ToggleButtons::make('status')
                 ->inline()
                 ->options(Status::class)
-                // ->options([
-                //     'open' => 'Open',
-                //     'in_course' => 'In course',
-                //     'closed' => 'Closed',
-                //     'review' => 'Review',
-                //     'completed' => 'Completed',
-                // ])
                 ->default('open')
                 ->required(),
             DateTimePicker::make('execution_at')
